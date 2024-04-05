@@ -6,13 +6,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 L.geoJSON(precinctBoundaries).addTo(map);
-L.geoJSON(arrestData, {
-    pointToLayer: function(feature, latlng){
-        let marker = L.marker(latlng);
-        marker.bindPopup(feature.properties.ofns_desc + '<br/>' + feature.properties.arrest_date + '<br/>' + feature.properties.arrest_precinct);
-        return marker
-    }
-}).addTo(map);
+
+
+var markers = L.markerClusterGroup();
+var marker = L.geoJSON(arrestData)
+
+markers.addLayer(marker)
+map.addLayer(markers)
+
+
 
 function highlightFeature(e) {
     let layer = e.target;
